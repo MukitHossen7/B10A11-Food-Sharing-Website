@@ -4,7 +4,7 @@ import FeaturedFoods from "../../components/FeaturedFoods/FeaturedFoods";
 const Home = () => {
   return (
     <div>
-      <div className="bg-gray-100">
+      <div className="">
         {/* Banner Section  */}
         <Banner></Banner>
         {/* Featured Foods Section */}
