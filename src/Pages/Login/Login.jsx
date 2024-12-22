@@ -3,13 +3,18 @@ import toast from "react-hot-toast";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeSharp } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
   const [signToggle, setSignToggle] = useState(false);
   const navigate = useNavigate();
-  const { signInExistingUsers, signInWithGoogle } = useContext(AuthContext);
+  const { signInExistingUsers, signInWithGoogle, user } =
+    useContext(AuthContext);
+  const location = useLocation();
+  if (user) {
+    return <Navigate to={location.state || "/"}></Navigate>;
+  }
   const handleLoginForm = (e) => {
     e.preventDefault();
     const email = e.target.email.value;

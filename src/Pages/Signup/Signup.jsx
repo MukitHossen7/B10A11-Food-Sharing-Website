@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeSharp } from "react-icons/io5";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import toast from "react-hot-toast";
 
@@ -14,11 +14,17 @@ const Signup = () => {
     updateUserProfile,
     setRefetch,
     signInWithGoogle,
+    user,
   } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
   const minLength = /.{6,}/;
   const hasUpperCase = /[A-Z]/;
   const hasLowerCase = /[a-z]/;
+
+  if (user) {
+    return <Navigate to={location.state || "/"}></Navigate>;
+  }
   const handleSignUpFrom = (e) => {
     e.preventDefault();
     const name = e.target.name.value;

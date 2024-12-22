@@ -1,6 +1,15 @@
+import { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
+import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+  const handleLogOut = () => {
+    logOut().then(() => {
+      toast.success("Log_out successfully");
+    });
+  };
   return (
     <div className=" text-black pt-6 w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto">
       <div className="navbar">
@@ -24,16 +33,18 @@ const Navbar = () => {
             </div>
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow gap-3 z-50 text-base "
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow gap-2 z-50 text-base "
             >
               <NavLink to="/">Home</NavLink>
               <NavLink to="/availableFoods">Available Foods</NavLink>
-              <NavLink to="/addFood">Add Food</NavLink>
 
-              <div className="flex flex-col gap-3">
-                <NavLink to="/manageMyFoods">Manage My Foods</NavLink>
-                <NavLink to="/myFoodRequest">My Food Request</NavLink>
-              </div>
+              {user && (
+                <div className="flex flex-col gap-2">
+                  <NavLink to="/addFood">Add Food</NavLink>
+                  <NavLink to="/manageMyFoods">Manage My Foods</NavLink>
+                  <NavLink to="/myFoodRequest">My Food Request</NavLink>
+                </div>
+              )}
             </ul>
           </div>
           <Link to="/" className="flex items-center space-x-1 lg:space-x-2">
@@ -46,12 +57,14 @@ const Navbar = () => {
           <ul className="menu menu-horizontal px-1 gap-8 text-base">
             <NavLink to="/">Home</NavLink>
             <NavLink to="/availableFoods">Available Foods</NavLink>
-            <NavLink to="/addFood">Add Food</NavLink>
 
-            <div className="flex items-center gap-8">
-              <NavLink to="/manageMyFoods">Manage My Foods</NavLink>
-              <NavLink to="/myFoodRequest">My Food Request</NavLink>
-            </div>
+            {user && (
+              <div className="flex items-center gap-8">
+                <NavLink to="/addFood">Add Food</NavLink>
+                <NavLink to="/manageMyFoods">Manage My Foods</NavLink>
+                <NavLink to="/myFoodRequest">My Food Request</NavLink>
+              </div>
+            )}
           </ul>
         </div>
         <div className="navbar-end gap-1 lg:gap-2 items-center">
@@ -59,19 +72,37 @@ const Navbar = () => {
             <div className="flex items-center gap-1 lg:gap-4"></div>
 
             <div className="flex items-center gap-1 lg:gap-4">
-              <Link
-                to="/login"
-                className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
-              >
-                Login
-              </Link>
+              {user?.email ? (
+                <div className="flex items-center gap-1 lg:gap-4">
+                  <div className="tooltip" data-tip={`${user?.displayName}`}>
+                    <img
+                      className="w-7 lg:w-8 h-7 lg:h-8 object-cover rounded-full"
+                      src={user?.photoURL}
+                    ></img>
+                  </div>
+                  <button onClick={handleLogOut}>
+                    <Link className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition">
+                      LogOut
+                    </Link>
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-1 lg:gap-4">
+                  <Link
+                    to="/login"
+                    className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
+                  >
+                    Login
+                  </Link>
 
-              <Link
-                to="/signup"
-                className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg  rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
-              >
-                Signup
-              </Link>
+                  <Link
+                    to="/signup"
+                    className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg  rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
+                  >
+                    Signup
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
