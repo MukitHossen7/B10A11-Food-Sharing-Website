@@ -4,10 +4,12 @@ import DatePicker from "react-datepicker";
 
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "./../../Provider/AuthProvider";
+import axios from "axios";
+import Swal from "sweetalert2";
 const AddFood = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
-  const handleAddFood = (e) => {
+  const handleAddFood = async (e) => {
     e.preventDefault();
     const foodName = e.target.foodName.value;
     const foodImg = e.target.photo.value;
@@ -24,10 +26,24 @@ const AddFood = () => {
       expireDate,
       additionalNotes,
       status,
-      donatorImage: user?.photoURL,
-      donatorName: user?.displayName,
-      donatorEmail: user?.email,
+      donator: {
+        donatorImage: user?.photoURL,
+        donatorName: user?.displayName,
+        donatorEmail: user?.email,
+      },
     };
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/all-foods`,
+      addFoodData
+    );
+    if (data.insertedId) {
+      e.target.reset();
+      Swal.fire({
+        title: "Food Added Successfully",
+        text: "You clicked the button!",
+        icon: "success",
+      });
+    }
     console.log(addFoodData);
   };
   return (
