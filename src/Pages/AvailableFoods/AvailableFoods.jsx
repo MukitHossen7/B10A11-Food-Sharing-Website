@@ -68,7 +68,7 @@ const AvailableFoods = () => {
               <p className="text-gray-600 mb-4">Expire Date: 10/12/2025</p>
 
               <div className="flex">
-                <Link to={`/details/${1}`}>
+                <Link to={`/food/${1}`}>
                   <button className="mt-auto bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600">
                     View Details
                   </button>
