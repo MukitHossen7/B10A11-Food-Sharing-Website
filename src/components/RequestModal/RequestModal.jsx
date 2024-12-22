@@ -1,11 +1,13 @@
+/* eslint-disable react/prop-types */
 import { format } from "date-fns";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
 
-const RequestModal = () => {
-  const currentDate = format(new Date(), "P");
-  console.log(currentDate);
+const RequestModal = ({ isOpen, onClose }) => {
   const { user } = useContext(AuthContext);
+  if (!isOpen) return null;
+
+  const currentDate = format(new Date(), "P");
 
   const handleRequestFood = (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ const RequestModal = () => {
     const pickup_location = e.target.pickup_location.value;
     const expire_date = e.target.expire_date.value;
     const additional_notes = e.target.additional_notes.value;
-    console.log(food_name, food_image, food_id, request_date, user_email);
+
     const requestData = {
       food_name,
       food_image,
@@ -32,12 +34,27 @@ const RequestModal = () => {
       request_date,
       additional_notes,
     };
+
     console.log(requestData);
   };
+
   return (
-    <div>
-      <div className="bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white rounded-lg shadow-lg w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] xl:w-[40%] relative">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800"
+        >
+          ✖
+        </button>
+
+        {/* Modal Content */}
+        <div className="p-6 max-h-[90vh] overflow-y-auto">
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+            Request Food
+          </h2>
+
           <form onSubmit={handleRequestFood}>
             {/* Food Name */}
             <div className="mb-4">
@@ -49,7 +66,7 @@ const RequestModal = () => {
                 value="Momos"
                 name="food_name"
                 readOnly
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
             {/* Food Image */}
@@ -62,7 +79,7 @@ const RequestModal = () => {
                 value="https://avatars.githubusercontent.com/u/80270685?v=4"
                 name="food_image"
                 readOnly
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
             {/* Food ID */}
@@ -75,11 +92,11 @@ const RequestModal = () => {
                 value="123546"
                 name="food_id"
                 readOnly
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
             </div>
             {/* Donator Information */}
-            <div className="mb-4 grid grid-cols-2 gap-4">
+            <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Donator Name
@@ -89,7 +106,7 @@ const RequestModal = () => {
                   value="Ranju"
                   name="donator_name"
                   readOnly
-                  className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
               <div>
@@ -101,61 +118,63 @@ const RequestModal = () => {
                   value="ranju@gmail.com"
                   name="donator_email"
                   readOnly
-                  className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                 />
               </div>
             </div>
-            {/* User Email */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">
-                User Email
-              </label>
-              <input
-                type="text"
-                value="raju@gmail.com"
-                name="user_email"
-                readOnly
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
             {/* Pickup Location */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Pickup Location
-              </label>
-              <input
-                type="text"
-                value="joypurhat"
-                name="pickup_location"
-                readOnly
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
+            <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  User Email
+                </label>
+                <input
+                  type="text"
+                  value="raju@gmail.com"
+                  name="user_email"
+                  readOnly
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Pickup Location
+                </label>
+                <input
+                  type="text"
+                  value="joypurhat"
+                  name="pickup_location"
+                  readOnly
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
             </div>
-            {/* Expire Date */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Expire Date
-              </label>
-              <input
-                type="text"
-                value="2/10/2025"
-                name="expire_date"
-                readOnly
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
-            </div>
-            {/* Request Date */}
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700">
-                Request Date
-              </label>
-              <input
-                type="text"
-                value={currentDate}
-                name="request_date"
-                readOnly
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-              />
+            {/* Expire and Request Dates */}
+            <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Expire Date
+                </label>
+                <input
+                  type="text"
+                  value="2/10/2025"
+                  name="expire_date"
+                  readOnly
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Request Date
+                </label>
+                <input
+                  type="text"
+                  value={currentDate}
+                  name="request_date"
+                  readOnly
+                  className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
             </div>
             {/* Additional Notes */}
             <div className="mb-4">
@@ -163,16 +182,16 @@ const RequestModal = () => {
                 Additional Notes
               </label>
               <textarea
-                rows="3"
+                rows="2"
                 name="additional_notes"
                 placeholder="Enter any additional notes here..."
-                className="w-full mt-1 p-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               ></textarea>
             </div>
             {/* Request Button */}
             <button
               type="submit"
-              className="w-full bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600"
+              className="w-full bg-teal-500 text-white py-2 px-4 rounded-lg hover:bg-teal-600 transition-colors duration-300"
             >
               Request Food
             </button>

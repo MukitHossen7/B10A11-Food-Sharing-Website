@@ -76,12 +76,12 @@ const Navbar = () => {
                 <div className="flex items-center gap-1 lg:gap-4">
                   <div className="tooltip" data-tip={`${user?.displayName}`}>
                     <img
-                      className="w-7 lg:w-8 h-7 lg:h-8 object-cover rounded-full"
+                      className="w-7 lg:w-10 h-7 lg:h-10 object-cover rounded-full"
                       src={user?.photoURL}
                     ></img>
                   </div>
                   <button onClick={handleLogOut}>
-                    <Link className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition">
+                    <Link className="py-2 px-4 lg:px-5 text-white text-sm lg:text-lg rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition">
                       LogOut
                     </Link>
                   </button>
@@ -90,14 +90,14 @@ const Navbar = () => {
                 <div className="flex items-center gap-1 lg:gap-4">
                   <Link
                     to="/login"
-                    className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
+                    className="py-2 px-4 lg:px-5 text-white text-sm lg:text-lg rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
                   >
                     Login
                   </Link>
 
                   <Link
                     to="/signup"
-                    className="py-1 px-4 lg:px-5 text-white text-sm lg:text-lg  rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
+                    className="py-2 px-4 lg:px-5 text-white text-sm lg:text-lg  rounded-lg bg-gradient-to-r from-teal-600 via-teal-500 to-teal-400 hover:from-teal-500 hover:via-teal-400 hover:to-teal-600 transition"
                   >
                     Signup
                   </Link>

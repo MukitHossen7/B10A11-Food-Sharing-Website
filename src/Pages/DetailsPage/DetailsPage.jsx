@@ -1,4 +1,8 @@
+import { useState } from "react";
+import RequestModal from "../../components/RequestModal/RequestModal";
+
 const DetailsPage = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="pt-10 pb-20">
       <div className="w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto">
@@ -67,7 +71,7 @@ const DetailsPage = () => {
 
             {/* Request Food Button */}
             <button
-              onClick={() => document.getElementById("my_modal_1").showModal()}
+              onClick={() => setIsModalOpen(true)}
               className="w-full bg-teal-500 hover:bg-teal-600 text-white font-semibold py-3 px-6 rounded shadow-lg transform transition-transform hover:scale-105 mt-6"
             >
               Request Food
@@ -75,32 +79,11 @@ const DetailsPage = () => {
           </div>
         </div>
       </div>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      {/* <button
-        className="btn"
-        onClick={() => document.getElementById("my_modal_5").showModal()}
-      >
-        open modal
-      </button> */}
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-      <button
-        className="btn"
-        onClick={() => document.getElementById("my_modal_1").showModal()}
-      >
-        open modal
-      </button>
-      <dialog id="my_modal_1" className="modal h-full">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
 
-          <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
-          </div>
-        </div>
-      </dialog>
+      <RequestModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      ></RequestModal>
     </div>
   );
 };
