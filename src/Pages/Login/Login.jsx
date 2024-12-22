@@ -1,16 +1,29 @@
+import { useState } from "react";
+import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import { IoEyeSharp } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [signToggle, setSignToggle] = useState(false);
+  const handleLoginForm = (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    console.log(email, password);
+  };
+  const handleToggleSignBtn = () => {
+    setSignToggle(!signToggle);
+  };
   return (
     <div>
-      <div className="min-h-screen bg-gradient-to-r flex items-center justify-center">
-        <div className="bg-white shadow-md rounded-lg p-8 max-w-md w-full">
+      <div className="py-20 bg-gradient-to-r flex items-center justify-center">
+        <div className="bg-white shadow-md rounded-lg p-8 max-w-lg w-full">
           <h2 className="text-2xl font-bold text-center text-teal-600 mb-6">
             Login to Your Account
           </h2>
 
-          <form className="">
+          <form className="" onSubmit={handleLoginForm}>
             <div className="mb-4">
               <label
                 htmlFor="email"
@@ -20,13 +33,14 @@ const Login = () => {
               </label>
               <input
                 type="email"
-                id="email"
+                name="email"
+                required
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                 placeholder="Enter your email"
               />
             </div>
 
-            <div className="mb-6">
+            <div className="mb-6 relative">
               <label
                 htmlFor="password"
                 className="block text-gray-700 font-medium mb-2"
@@ -34,11 +48,24 @@ const Login = () => {
                 Password
               </label>
               <input
-                type="password"
-                id="password"
+                type={signToggle ? "text" : "password"}
+                name="password"
+                required
                 className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                 placeholder="Enter your password"
               />
+              <button
+                type="button"
+                className="absolute -top-1"
+                onClick={handleToggleSignBtn}
+              >
+                {" "}
+                {signToggle ? (
+                  <FaEyeSlash className="absolute right-2 top-12 text-xl" />
+                ) : (
+                  <IoEyeSharp className="absolute right-2 top-12 text-xl" />
+                )}
+              </button>
             </div>
 
             <button
@@ -55,7 +82,7 @@ const Login = () => {
               <FcGoogle className="text-2xl" /> Login with Google
             </button>
           </div>
-          <p className="text-center mt-4 text-gray-600">
+          <p className="text-center text-sm mt-4 text-gray-600">
             Don’t have an account?{" "}
             <Link
               to="/signup"
