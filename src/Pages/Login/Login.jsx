@@ -1,19 +1,41 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import toast from "react-hot-toast";
 import { FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Login = () => {
   const [signToggle, setSignToggle] = useState(false);
+  const navigate = useNavigate();
+  const { signInExistingUsers, signInWithGoogle } = useContext(AuthContext);
   const handleLoginForm = (e) => {
     e.preventDefault();
     const email = e.target.email.value;
     const password = e.target.password.value;
-    console.log(email, password);
+
+    signInExistingUsers(email, password)
+      .then(() => {
+        toast.success("Login successfully");
+        navigate("/");
+      })
+      .catch(() => {
+        toast.error("Invalid Credential Email/Password");
+      });
   };
   const handleToggleSignBtn = () => {
     setSignToggle(!signToggle);
+  };
+  const handleLoginGoogle = () => {
+    signInWithGoogle()
+      .then(() => {
+        toast.success("Google Login successfully");
+        navigate("/");
+      })
+      .catch(() => {
+        toast.error("Google Login failed please try again");
+      });
   };
   return (
     <div>
@@ -78,7 +100,10 @@ const Login = () => {
           <div className="divider text-gray-600 mt-4">Or login with Google</div>
 
           <div className="text-center mt-4">
-            <button className="flex items-center gap-2 justify-center mt-2 py-2 px-4 w-full rounded-lg border-2 border-teal-500 text-teal-500 font-medium hover:bg-gradient-to-r hover:from-teal-500 hover:to-teal-700 hover:text-white transition-all">
+            <button
+              onClick={handleLoginGoogle}
+              className="flex items-center gap-2 justify-center mt-2 py-2 px-4 w-full rounded-lg border-2 border-teal-500 text-teal-500 font-medium hover:bg-gradient-to-r hover:from-teal-500 hover:to-teal-700 hover:text-white transition-all"
+            >
               <FcGoogle className="text-2xl" /> Login with Google
             </button>
           </div>
