@@ -66,9 +66,9 @@ const AvailableFoods = () => {
         </div>
 
         <div className={`grid sm:grid-cols-1 lg:grid-cols-${layout} gap-6 `}>
-          {foods.map((food, idx) => (
+          {foods.map((food) => (
             <div
-              key={idx}
+              key={food._id}
               className="rounded shadow-md p-4 flex flex-col  hover:shadow-xl transition-shadow"
             >
               <img
