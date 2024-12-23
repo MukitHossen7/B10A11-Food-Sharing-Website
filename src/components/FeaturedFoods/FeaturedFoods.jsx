@@ -48,27 +48,31 @@ const FeaturedFoods = () => {
         {featuredFoods.map((food, index) => (
           <div
             key={index}
-            className="bg-white shadow-lg rounded-lg overflow-hidden hover:scale-105 transform transition duration-300 ease-in-out"
+            className="rounded shadow-md p-4 flex flex-col  hover:shadow-xl  bg-white  overflow-hidden hover:scale-105 transform transition duration-300 ease-in-out"
           >
             <img
-              src={`https://source.unsplash.com/400x300/?${food.name.toLowerCase()}`}
-              alt={food.name}
-              className="w-full h-48 object-cover transition-all duration-300 ease-in-out"
+              src={food?.image}
+              alt="food"
+              className="w-full h-60 object-cover rounded mb-4"
             />
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-800">
-                {food.name}
-              </h3>
-              <p className="text-gray-600 mt-2">{food.description}</p>
-              <div className="mt-4 flex justify-between items-center">
-                <span className="text-gray-600">Quantity: {food.quantity}</span>
-                <Link
-                  to="/available-foods"
-                  className="text-teal-600 hover:underline"
-                >
-                  View All
-                </Link>
-              </div>
+
+            <div className="mb-2 gap-10 flex justify-between items-center">
+              <h2 className="text-xl font-semibold ">{food?.foodName}</h2>
+              <p className="text-green-500 bg-green-100 px-3 text-sm rounded-full">
+                {food?.status}
+              </p>
+            </div>
+            <p className="text-gray-600 mb-1">Quantity: {food?.foodQuantity}</p>
+            <p className="text-gray-600 mb-4">
+              Expire Date: {food?.expireDate}
+            </p>
+
+            <div className="flex">
+              <Link to={`/food/${food?._id}`}>
+                <button className="mt-auto bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600">
+                  View Details
+                </button>
+              </Link>
             </div>
           </div>
         ))}

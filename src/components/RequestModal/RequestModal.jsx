@@ -6,7 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const RequestModal = ({ isOpen, onClose, food }) => {
-  const { user } = useContext(AuthContext);
+  const { user, setLoading } = useContext(AuthContext);
   if (!isOpen) return null;
 
   const currentDate = format(new Date(), "P");
@@ -21,6 +21,7 @@ const RequestModal = ({ isOpen, onClose, food }) => {
     additionalNotes,
   } = food || {};
   const handleRequestFood = async (e) => {
+    setLoading(true);
     e.preventDefault();
     const food_name = e.target.food_name.value;
     const food_image = e.target.food_image.value;
@@ -58,6 +59,7 @@ const RequestModal = ({ isOpen, onClose, food }) => {
         icon: "success",
       });
     }
+    setLoading(false);
   };
 
   return (

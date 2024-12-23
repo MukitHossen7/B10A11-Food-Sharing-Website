@@ -7,25 +7,31 @@ const AvailableFoods = () => {
   const [foods, setFoods] = useState([]);
   const [layout, setLayout] = useState(3);
   const [sort, setSort] = useState("");
+
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BASE_URL}/all-foods`).then((response) => {
-      setFoods(response.data);
-    });
-  }, []);
-
-  // useEffect(() => {
-  //   axios
-  //     .get(`${import.meta.env.VITE_BASE_URL}/all-foods/${sort}`)
-  //     .then((response) => {
-  //       setFoods(response.data);
-  //     });
-  // }, [sort]);
-  console.log(foods);
-
+    axios
+      .get(
+        `${import.meta.env.VITE_BASE_URL}/all-foods?available=true&sort=${sort}`
+      )
+      .then((response) => {
+        setFoods(response.data);
+      });
+  }, [sort]);
+  const handleSearch = (e) => {
+    const searchValue = e.target.value;
+    axios
+      .get(
+        `${
+          import.meta.env.VITE_BASE_URL
+        }/all-foods?available=true&search=${searchValue}`
+      )
+      .then((response) => {
+        setFoods(response.data);
+      });
+  };
   const toggleLayout = () => {
     setLayout((prev) => (prev === 3 ? 2 : 3));
   };
-  console.log(sort);
   return (
     <div className="pb-20 pt-10">
       <div className=" w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto">
@@ -43,15 +49,16 @@ const AvailableFoods = () => {
               onChange={(e) => setSort(e.target.value)}
             >
               <option value="">Sort By Expire Date</option>
-              <option value="-1">Descending Order</option>
-              <option value="1">Ascending Order</option>
+              <option value="dsc">Descending Order</option>
+              <option value="asc">Ascending Order</option>
             </select>
           </div>
 
-          <div className="flex items-center gap-2 border rounded px-2  shadow-md">
+          <div className="flex items-center gap-2 border border-teal-500 rounded px-2  shadow-md">
             <FaSearch className="text-teal-500" />
             <input
               type="text"
+              onChange={handleSearch}
               placeholder="Search food name"
               className="outline-none px-2 py-1 bg-transparent"
             />

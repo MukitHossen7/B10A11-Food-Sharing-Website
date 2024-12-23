@@ -48,6 +48,7 @@ const AuthProvider = ({ children }) => {
     user,
     setRefetch,
     loading,
+    setLoading,
     email,
     setEmail,
     createSignUpNewUsers,
