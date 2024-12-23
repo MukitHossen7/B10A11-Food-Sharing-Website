@@ -1,57 +1,28 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const FeaturedFoods = () => {
-  const featuredFoods = [
-    {
-      name: "Pizza",
-      image: "pizza.jpg",
-      description: "Delicious and fresh pizza",
-      quantity: 20,
-    },
-    {
-      name: "Burger",
-      image: "burger.jpg",
-      description: "Juicy and tasty burger",
-      quantity: 15,
-    },
-    {
-      name: "Pasta",
-      image: "pasta.jpg",
-      description: "Creamy and savory pasta",
-      quantity: 10,
-    },
-    {
-      name: "Salad",
-      image: "salad.jpg",
-      description: "Healthy and fresh salad",
-      quantity: 25,
-    },
-    {
-      name: "Cake",
-      image: "cake.jpg",
-      description: "Sweet and delicious cake",
-      quantity: 5,
-    },
-    {
-      name: "Sushi",
-      image: "sushi.jpg",
-      description: "Fresh sushi rolls",
-      quantity: 30,
-    },
-  ];
+  const [featuredFoods, setFeaturedFoods] = useState([]);
+  useEffect(() => {
+    axios.get(`${import.meta.env.VITE_BASE_URL}/featured-foods`).then((res) => {
+      setFeaturedFoods(res.data);
+    });
+  }, []);
+
   return (
     <div className="w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto py-16 px-4">
       <h2 className="text-3xl lg:text-4xl font-semibold text-center text-teal-600">
         Featured Foods
       </h2>
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {featuredFoods.map((food, index) => (
+        {featuredFoods.map((food) => (
           <div
-            key={index}
+            key={food._id}
             className="rounded shadow-md p-4 flex flex-col  hover:shadow-xl  bg-white  overflow-hidden hover:scale-105 transform transition duration-300 ease-in-out"
           >
             <img
-              src={food?.image}
+              src={food?.foodImg}
               alt="food"
               className="w-full h-60 object-cover rounded mb-4"
             />
