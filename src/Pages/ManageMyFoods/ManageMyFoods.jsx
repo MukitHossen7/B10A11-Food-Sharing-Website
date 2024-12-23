@@ -1,41 +1,22 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+
 import { FaEdit, FaTrash } from "react-icons/fa";
-const foods = [
-  {
-    id: 1,
-    name: "Pizza",
-    image: "https://via.placeholder.com/150",
-    quantity: 2,
-    location: "New York",
-    expiry: "2024-12-30",
-    status: "available",
-    additional_notes:
-      "Clicking on the add button the data will be saved on a collection",
-  },
-  {
-    id: 1,
-    name: "Pizza",
-    image: "https://via.placeholder.com/150",
-    quantity: 2,
-    location: "New York",
-    expiry: "2024-12-30",
-    status: "available",
-    additional_notes:
-      "Clicking on the add button the data will be saved on a collection",
-  },
-  {
-    id: 1,
-    name: "Pizza",
-    image: "https://via.placeholder.com/150",
-    quantity: 2,
-    location: "New York",
-    expiry: "2024-12-30",
-    status: "available",
-    additional_notes:
-      "Clicking on the add button the data will be saved on a collection",
-  },
-];
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const ManageMyFoods = () => {
+  const { user } = useContext(AuthContext);
+  const [myFoods, setMyFoods] = useState([]);
+  useEffect(() => {
+    axios
+      .get(
+        `${import.meta.env.VITE_BASE_URL}/manage-my-foods?email=${user?.email}`
+      )
+      .then((response) => {
+        setMyFoods(response.data);
+      });
+  }, [user?.email]);
+
   return (
     <div>
       <div className="pt-10 pb-20 w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto">
@@ -58,28 +39,28 @@ const ManageMyFoods = () => {
                 </tr>
               </thead>
               <tbody>
-                {foods.map((food) => (
-                  <tr key={food.id} className="odd:bg-teal-100 even:bg-white">
+                {myFoods.map((food) => (
+                  <tr key={food._id} className="odd:bg-teal-100 even:bg-white">
                     <td className="px-4 py-2">
                       <img
-                        src={food.image}
-                        alt={food.name}
-                        className="w-16 h-16 rounded-md"
+                        src={food?.foodImg}
+                        alt="food image"
+                        className="w-12 lg:w-16 h-12 lg:h-16 rounded-md"
                       />
                     </td>
-                    <td className="px-4 py-2">{food.name}</td>
-                    <td className="px-4 py-2">{food.quantity}</td>
-                    <td className="px-4 py-2">{food.location}</td>
-                    <td className="px-4 py-2">{food.expiry}</td>
-                    <td className="px-4 py-2">{food.status}</td>
+                    <td className="px-4 py-2">{food?.foodName}</td>
+                    <td className="px-4 py-2">{food?.foodQuantity}</td>
+                    <td className="px-4 py-2">{food?.location}</td>
+                    <td className="px-4 py-2">{food?.expireDate}</td>
+                    <td className="px-4 py-2">{food?.status}</td>
                     <td className="px-4 py-2">
-                      {food.additional_notes.slice(0, 25)}..
+                      {food?.additionalNotes?.slice(0, 25)}..
                     </td>
                     <td className="px-4 py-5 flex items-end space-x-3">
-                      <button className="text-white bg-teal-500 hover:bg-teal-600 px-3 py-2 rounded-md flex items-center">
+                      <button className="text-white bg-teal-500 hover:bg-teal-600 px-3 py-1 lg:py-2 rounded-md flex items-center">
                         <FaEdit className="mr-2" /> Update
                       </button>
-                      <button className="text-white bg-red-500 hover:bg-red-600 px-3 py-2 rounded-md flex items-center">
+                      <button className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 lg:py-2 rounded-md flex items-center">
                         <FaTrash className="mr-2" /> Delete
                       </button>
                     </td>
