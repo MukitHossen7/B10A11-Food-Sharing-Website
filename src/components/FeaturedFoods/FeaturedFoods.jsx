@@ -11,7 +11,7 @@ const FeaturedFoods = () => {
   }, []);
 
   return (
-    <div className="w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto py-16 px-4">
+    <div className="w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto pt-16 pb-14">
       <h2 className="text-3xl lg:text-4xl font-semibold text-center text-teal-600">
         Featured Foods
       </h2>
