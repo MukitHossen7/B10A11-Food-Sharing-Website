@@ -1,8 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RequestModal from "../../components/RequestModal/RequestModal";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const DetailsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [food, setFood] = useState({});
+  const { id } = useParams();
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/all-foods/${id}`)
+      .then((response) => {
+        setFood(response.data);
+      });
+  }, [id]);
+  const {
+    foodImg,
+    foodName,
+    expireDate,
+    donator,
+    foodQuantity,
+    location,
+    status,
+    additionalNotes,
+  } = food || {};
   return (
     <div className="pt-10 pb-20">
       <div className="w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto">
@@ -10,46 +31,48 @@ const DetailsPage = () => {
           {/* Food Image */}
           <div className="relative">
             <img
-              src=""
-              alt=""
-              className="w-full h-64 object-cover object-center"
+              src={foodImg}
+              alt="image"
+              className="w-full h-96 object-cover object-center"
             />
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-white text-4xl font-bold">
-              {name}
+              {foodName}
             </div>
           </div>
 
           {/* Details Section */}
           <div className="p-8">
-            <h2 className="text-2xl font-bold text-teal-700 mb-6">Barger</h2>
+            <h2 className="text-2xl font-bold text-teal-700 mb-6">
+              {foodName}
+            </h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               {/* Left Column: Food Details */}
               <div className="space-y-2">
                 <p>
-                  <span className="font-semibold ">Quantity:</span> 10
+                  <span className="font-semibold ">Quantity:</span>{" "}
+                  {foodQuantity}
                 </p>
                 <p>
-                  <span className="font-semibold ">Food Status:</span> Available
+                  <span className="font-semibold ">Food Status:</span> {status}
                 </p>
                 <p>
                   <span className="font-semibold ">Pickup Location:</span>{" "}
-                  Joypurhat
+                  {location}
                 </p>
                 <p>
                   <span className="font-semibold ">Expire Date:</span>{" "}
-                  11/12/2025
+                  {expireDate}
                 </p>
                 <p>
                   <span className="font-semibold ">Additional Notes:</span>{" "}
-                  Clicking on the add button the data will be saved on a
-                  collection (food collection) and the added food will be shown
+                  {additionalNotes}
                 </p>
               </div>
 
               {/* Right Column: Donator Information */}
               <div className="bg-teal-50 p-6 rounded-lg shadow-md flex flex-col items-center space-y-4">
                 <img
-                  src=""
+                  src={donator?.donatorImage}
                   alt=""
                   className="w-16 h-16 rounded-full border-2 border-teal-500"
                 />
@@ -59,11 +82,11 @@ const DetailsPage = () => {
                   </h3>
                   <p>
                     <span className="font-semibold text-gray-700">Name:</span>{" "}
-                    Mukit
+                    {donator?.donatorName}
                   </p>
                   <p>
                     <span className="font-semibold text-gray-700">Email:</span>{" "}
-                    mukit@gmail.com
+                    {donator?.donatorEmail}
                   </p>
                 </div>
               </div>
@@ -82,6 +105,7 @@ const DetailsPage = () => {
 
       <RequestModal
         isOpen={isModalOpen}
+        food={food}
         onClose={() => setIsModalOpen(false)}
       ></RequestModal>
     </div>

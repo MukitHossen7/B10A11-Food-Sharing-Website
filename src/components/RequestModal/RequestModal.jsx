@@ -2,14 +2,25 @@
 import { format } from "date-fns";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-const RequestModal = ({ isOpen, onClose }) => {
+const RequestModal = ({ isOpen, onClose, food }) => {
   const { user } = useContext(AuthContext);
   if (!isOpen) return null;
 
   const currentDate = format(new Date(), "P");
 
-  const handleRequestFood = (e) => {
+  const {
+    _id,
+    foodImg,
+    foodName,
+    expireDate,
+    donator,
+    location,
+    additionalNotes,
+  } = food || {};
+  const handleRequestFood = async (e) => {
     e.preventDefault();
     const food_name = e.target.food_name.value;
     const food_image = e.target.food_image.value;
@@ -33,9 +44,20 @@ const RequestModal = ({ isOpen, onClose }) => {
       expire_date,
       request_date,
       additional_notes,
+      status: "Requested",
     };
-
-    console.log(requestData);
+    const { data } = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/request-foods`,
+      requestData
+    );
+    if (data.insertedId) {
+      e.target.reset();
+      Swal.fire({
+        title: "Food Requested Successfully",
+        text: "You clicked the button!",
+        icon: "success",
+      });
+    }
   };
 
   return (
@@ -63,7 +85,7 @@ const RequestModal = ({ isOpen, onClose }) => {
               </label>
               <input
                 type="text"
-                value="Momos"
+                value={foodName}
                 name="food_name"
                 readOnly
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -76,7 +98,7 @@ const RequestModal = ({ isOpen, onClose }) => {
               </label>
               <input
                 type="text"
-                value="https://avatars.githubusercontent.com/u/80270685?v=4"
+                value={foodImg}
                 name="food_image"
                 readOnly
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -89,7 +111,7 @@ const RequestModal = ({ isOpen, onClose }) => {
               </label>
               <input
                 type="text"
-                value="123546"
+                value={_id}
                 name="food_id"
                 readOnly
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -103,7 +125,7 @@ const RequestModal = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  value="Ranju"
+                  value={donator?.donatorName}
                   name="donator_name"
                   readOnly
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -115,7 +137,7 @@ const RequestModal = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  value="ranju@gmail.com"
+                  value={donator?.donatorEmail}
                   name="donator_email"
                   readOnly
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -130,7 +152,7 @@ const RequestModal = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  value="raju@gmail.com"
+                  value={user?.email}
                   name="user_email"
                   readOnly
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -142,7 +164,7 @@ const RequestModal = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  value="joypurhat"
+                  value={location}
                   name="pickup_location"
                   readOnly
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -157,7 +179,7 @@ const RequestModal = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
-                  value="2/10/2025"
+                  value={expireDate}
                   name="expire_date"
                   readOnly
                   className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
@@ -184,6 +206,7 @@ const RequestModal = ({ isOpen, onClose }) => {
               <textarea
                 rows="2"
                 name="additional_notes"
+                defaultValue={additionalNotes}
                 placeholder="Enter any additional notes here..."
                 className="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
               ></textarea>
