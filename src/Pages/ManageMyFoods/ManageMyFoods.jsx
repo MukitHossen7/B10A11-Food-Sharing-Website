@@ -1,9 +1,9 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
-
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 const ManageMyFoods = () => {
   const { user } = useContext(AuthContext);
@@ -83,9 +83,11 @@ const ManageMyFoods = () => {
                       {food?.additionalNotes?.slice(0, 25)}..
                     </td>
                     <td className="px-4 py-5 flex items-end space-x-3">
-                      <button className="text-white bg-teal-500 hover:bg-teal-600 px-3 py-1 lg:py-2 rounded-md flex items-center">
-                        <FaEdit className="mr-2" /> Update
-                      </button>
+                      <Link to={`/updateFoods/${food._id}`}>
+                        <button className="text-white bg-teal-500 hover:bg-teal-600 px-3 py-1 lg:py-2 rounded-md flex items-center">
+                          <FaEdit className="mr-2" /> Update
+                        </button>
+                      </Link>
                       <button
                         onClick={() => handleDeleteMyFoods(food._id)}
                         className="text-white bg-red-500 hover:bg-red-600 px-3 py-1 lg:py-2 rounded-md flex items-center"

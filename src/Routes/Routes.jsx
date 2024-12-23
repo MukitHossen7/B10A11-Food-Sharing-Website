@@ -9,6 +9,7 @@ import MyFoodRequest from "./../Pages/MyFoodRequest.jsx/MyFoodRequest";
 import Signup from "../Pages/Signup/Signup";
 import PrivateRoutes from "./PrivateRoutes";
 import DetailsPage from "../Pages/DetailsPage/DetailsPage";
+import UpdateMyFoods from "../Pages/UpdateMyFoods/UpdateMyFoods";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -51,6 +52,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoutes>
             <DetailsPage></DetailsPage>,
+          </PrivateRoutes>
+        ),
+      },
+      {
+        path: "/updateFoods/:id",
+        element: (
+          <PrivateRoutes>
+            <UpdateMyFoods></UpdateMyFoods>
           </PrivateRoutes>
         ),
       },
