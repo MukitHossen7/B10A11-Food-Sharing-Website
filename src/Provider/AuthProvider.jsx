@@ -10,6 +10,7 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import auth from "./../Firebase/firebase.init";
+import axios from "axios";
 
 export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
@@ -37,7 +38,28 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const connection = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      setLoading(false);
+      if (currentUser?.email) {
+        const users = { email: currentUser?.email };
+        axios
+          .post(`${import.meta.env.VITE_BASE_URL}/jwt`, users, {
+            withCredentials: true,
+          })
+          .then((res) => {
+            console.log(res.data);
+            setLoading(false);
+          });
+      } else {
+        axios
+          .post(
+            `${import.meta.env.VITE_BASE_URL}/logout`,
+            {},
+            { withCredentials: true }
+          )
+          .then((res) => {
+            console.log(res.data);
+            setLoading(false);
+          });
+      }
     });
     return () => {
       connection();

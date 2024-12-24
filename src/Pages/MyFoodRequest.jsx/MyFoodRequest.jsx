@@ -1,20 +1,21 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
+import useAxiosInstance from "../../CustomHooks/useAxiosInstance";
 
 const MyFoodRequest = () => {
   const { user } = useContext(AuthContext);
   const [foodRequest, setFoodRequest] = useState([]);
+  const axiosInstance = useAxiosInstance();
 
   useEffect(() => {
-    axios
-      .get(
-        `${import.meta.env.VITE_BASE_URL}/request-foods?email=${user?.email}`
-      )
-      .then((response) => {
-        setFoodRequest(response.data);
-      });
-  }, [user?.email]);
+    requestMyFood();
+  }, []);
+  const requestMyFood = async () => {
+    const { data } = await axiosInstance.get(
+      `/request-foods?email=${user?.email}`
+    );
+    setFoodRequest(data);
+  };
 
   return (
     <div>

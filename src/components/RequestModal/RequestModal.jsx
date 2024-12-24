@@ -2,11 +2,12 @@
 import { format } from "date-fns";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthProvider";
-import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosInstance from "../../CustomHooks/useAxiosInstance";
 
 const RequestModal = ({ isOpen, onClose, food }) => {
   const { user, setLoading } = useContext(AuthContext);
+  const axiosInstance = useAxiosInstance();
   if (!isOpen) return null;
 
   const currentDate = format(new Date(), "P");
@@ -47,10 +48,7 @@ const RequestModal = ({ isOpen, onClose, food }) => {
       additional_notes,
       status: "Requested",
     };
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/request-foods`,
-      requestData
-    );
+    const { data } = await axiosInstance.post(`/request-foods`, requestData);
     if (data.insertedId) {
       e.target.reset();
       Swal.fire({

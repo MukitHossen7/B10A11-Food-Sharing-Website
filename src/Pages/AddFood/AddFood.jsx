@@ -1,14 +1,14 @@
 import { format } from "date-fns";
 import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "./../../Provider/AuthProvider";
-import axios from "axios";
 import Swal from "sweetalert2";
+import useAxiosInstance from "../../CustomHooks/useAxiosInstance";
 const AddFood = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
+  const axiosInstance = useAxiosInstance();
   const handleAddFood = async (e) => {
     e.preventDefault();
     const foodName = e.target.foodName.value;
@@ -32,10 +32,7 @@ const AddFood = () => {
         donatorEmail: user?.email,
       },
     };
-    const { data } = await axios.post(
-      `${import.meta.env.VITE_BASE_URL}/all-foods`,
-      addFoodData
-    );
+    const { data } = await axiosInstance.post(`/all-foods`, addFoodData);
     if (data.insertedId) {
       e.target.reset();
       Swal.fire({

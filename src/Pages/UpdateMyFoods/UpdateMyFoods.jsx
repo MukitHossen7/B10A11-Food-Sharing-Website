@@ -1,19 +1,21 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxiosInstance from "../../CustomHooks/useAxiosInstance";
 
 const UpdateMyFoods = () => {
+  const axiosInstance = useAxiosInstance();
   const [food, setFood] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/all-foods/${id}`)
-      .then((response) => {
-        setFood(response.data);
-      });
-  }, [id]);
+    handleUpdateData();
+  }, []);
+  const handleUpdateData = () => {
+    axiosInstance.get(`/all-foods/${id}`).then((response) => {
+      setFood(response.data);
+    });
+  };
 
   const handleUpdateForm = (e) => {
     e.preventDefault();
@@ -31,21 +33,17 @@ const UpdateMyFoods = () => {
       expireDate,
       additionalNotes,
     };
-    console.log(updateData);
-    axios
-      .patch(`${import.meta.env.VITE_BASE_URL}/all-foods/${id}`, updateData)
-      .then((res) => {
-        console.log(res.data);
-        console.log(res);
-        if (res.data.modifiedCount > 0) {
-          Swal.fire({
-            title: "Updated Successfully",
-            text: "You clicked the button!",
-            icon: "success",
-          });
-          navigate("/manageMyFoods");
-        }
-      });
+
+    axiosInstance.patch(`/all-foods/${id}`, updateData).then((res) => {
+      if (res.data.modifiedCount > 0) {
+        Swal.fire({
+          title: "Updated Successfully",
+          text: "You clicked the button!",
+          icon: "success",
+        });
+        navigate("/manageMyFoods");
+      }
+    });
   };
   return (
     <div className="pb-20 pt-10">

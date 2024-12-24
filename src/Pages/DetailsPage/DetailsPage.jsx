@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 import RequestModal from "../../components/RequestModal/RequestModal";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import useAxiosInstance from "../../CustomHooks/useAxiosInstance";
 
 const DetailsPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [food, setFood] = useState({});
   const { id } = useParams();
+  const axiosInstance = useAxiosInstance();
   useEffect(() => {
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/all-foods/${id}`)
-      .then((response) => {
-        setFood(response.data);
-      });
-  }, [id]);
+    handleFoodDetail();
+  }, []);
+
+  const handleFoodDetail = () => {
+    axiosInstance.get(`/all-foods/${id}`).then((response) => {
+      setFood(response.data);
+    });
+  };
   const {
     foodImg,
     foodName,

@@ -1,22 +1,24 @@
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { AuthContext } from "../../Provider/AuthProvider";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
+import useAxiosInstance from "../../CustomHooks/useAxiosInstance";
 
 const ManageMyFoods = () => {
   const { user } = useContext(AuthContext);
   const [myFoods, setMyFoods] = useState([]);
+  const axiosInstance = useAxiosInstance();
   useEffect(() => {
-    const manageMyFood = async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_BASE_URL}/manage-my-foods?email=${user?.email}`
-      );
-      setMyFoods(data);
-    };
     manageMyFood();
-  }, [user?.email]);
+  }, []);
+
+  const manageMyFood = async () => {
+    const { data } = await axiosInstance.get(
+      `/manage-my-foods?email=${user?.email}`
+    );
+    setMyFoods(data);
+  };
   const handleDeleteMyFoods = async (id) => {
     Swal.fire({
       title: "Are you sure?",
@@ -28,18 +30,16 @@ const ManageMyFoods = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axios
-          .delete(`${import.meta.env.VITE_BASE_URL}/all-foods/${id}`)
-          .then((res) => {
-            if (res.data.deletedCount > 0) {
-              Swal.fire({
-                title: "Deleted!",
-                text: "Your food has been deleted.",
-                icon: "success",
-              });
-              setMyFoods(myFoods.filter((food) => food._id !== id));
-            }
-          });
+        axiosInstance.delete(`/all-foods/${id}`).then((res) => {
+          if (res.data.deletedCount > 0) {
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your food has been deleted.",
+              icon: "success",
+            });
+            setMyFoods(myFoods.filter((food) => food._id !== id));
+          }
+        });
       }
     });
   };
