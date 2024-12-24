@@ -7,28 +7,19 @@ const AvailableFoods = () => {
   const [foods, setFoods] = useState([]);
   const [layout, setLayout] = useState(3);
   const [sort, setSort] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     axios
       .get(
-        `${import.meta.env.VITE_BASE_URL}/all-foods?available=true&sort=${sort}`
-      )
-      .then((response) => {
-        setFoods(response.data);
-      });
-  }, [sort]);
-  const handleSearch = (e) => {
-    const searchValue = e.target.value;
-    axios
-      .get(
         `${
           import.meta.env.VITE_BASE_URL
-        }/all-foods?available=true&search=${searchValue}`
+        }/all-foods?available=true&sort=${sort}&search=${search}`
       )
       .then((response) => {
         setFoods(response.data);
       });
-  };
+  }, [sort, search]);
   const toggleLayout = () => {
     setLayout((prev) => (prev === 3 ? 2 : 3));
   };
@@ -58,7 +49,7 @@ const AvailableFoods = () => {
             <FaSearch className="text-teal-500" />
             <input
               type="text"
-              onChange={handleSearch}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search food name"
               className="outline-none px-2 py-1 bg-transparent"
             />
