@@ -4,7 +4,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 const axiosInstance = axios.create({
-  baseURL: "https://server-side-navy.vercel.app",
+  baseURL: "https://food-shearing-server-side.vercel.app",
   withCredentials: true,
 });
 const useAxiosInstance = () => {
