@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Banner from "../../components/Banner/banner";
 import FeaturedFoods from "../../components/FeaturedFoods/FeaturedFoods";
 import CommunityImpact from "../../components/CommunityImpact/CommunityImpact";
+import OurDestination from "../../components/OurDestination/OurDestination";
 
 const Home = () => {
   return (
@@ -19,6 +20,7 @@ const Home = () => {
           </Link>
         </div>
         <CommunityImpact></CommunityImpact>
+        <OurDestination></OurDestination>
       </div>
     </div>
   );
