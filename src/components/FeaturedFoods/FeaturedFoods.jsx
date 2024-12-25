@@ -10,7 +10,6 @@ const FeaturedFoods = () => {
     );
     return data;
   };
-
   const { data, isLoading } = useQuery({
     queryKey: ["featured-foods"],
     queryFn: handleFeaturedFood,

@@ -3,12 +3,26 @@ import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { AuthContext } from "./../../Provider/AuthProvider";
-import Swal from "sweetalert2";
 import useAxiosInstance from "../../CustomHooks/useAxiosInstance";
+import { useMutation } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import { FadeLoader } from "react-spinners";
 const AddFood = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
   const axiosInstance = useAxiosInstance();
+  const { isPending, mutateAsync } = useMutation({
+    mutationFn: async (foodData) => {
+      await axiosInstance.post(`/all-foods`, foodData);
+    },
+    onSuccess: () => {
+      Swal.fire({
+        title: "Food Added Successfully",
+        text: "You clicked the button!",
+        icon: "success",
+      });
+    },
+  });
   const handleAddFood = async (e) => {
     e.preventDefault();
     const foodName = e.target.foodName.value;
@@ -32,17 +46,15 @@ const AddFood = () => {
         donatorEmail: user?.email,
       },
     };
-    const { data } = await axiosInstance.post(`/all-foods`, addFoodData);
-    if (data.insertedId) {
-      e.target.reset();
-      Swal.fire({
-        title: "Food Added Successfully",
-        text: "You clicked the button!",
-        icon: "success",
-      });
-    }
-    console.log(addFoodData);
+    await mutateAsync(addFoodData);
   };
+  if (isPending) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <FadeLoader color="#2df1f7" loading={true} />
+      </div>
+    );
+  }
   return (
     <div>
       <div className="py-20 flex items-center justify-center p-6">
