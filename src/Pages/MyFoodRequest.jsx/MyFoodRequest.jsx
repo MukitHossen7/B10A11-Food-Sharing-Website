@@ -34,7 +34,7 @@ const MyFoodRequest = () => {
                 alt="food image"
                 className="w-full h-60 object-cover rounded-md mb-4"
               />
-              <h3 className="text-xl font-semibold mb-2 text-gray-800">
+              <h3 className="text-lg lg:text-xl font-semibold mb-2 text-gray-800">
                 {food?.food_name}
               </h3>
               <p className="text-sm text-gray-600 mb-1">

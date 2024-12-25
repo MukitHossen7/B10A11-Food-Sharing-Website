@@ -50,7 +50,7 @@ const AddFood = () => {
   };
   if (isPending) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center py-20">
         <FadeLoader color="#2df1f7" loading={true} />
       </div>
     );

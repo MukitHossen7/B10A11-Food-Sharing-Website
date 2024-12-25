@@ -78,7 +78,9 @@ const AvailableFoods = () => {
               />
 
               <div className="mb-2 gap-10 flex justify-between items-center">
-                <h2 className="text-xl font-semibold ">{food?.foodName}</h2>
+                <h2 className="text-lg lg:text-xl font-semibold ">
+                  {food?.foodName}
+                </h2>
                 <p className="text-green-500 bg-green-100 px-3 text-sm rounded-full">
                   {food?.status}
                 </p>

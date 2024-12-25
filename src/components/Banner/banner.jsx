@@ -11,10 +11,10 @@ const Banner = () => {
       >
         <div className="absolute inset-0 bg-black opacity-50 transition-all duration-500 ease-in-out"></div>
         <div className="relative z-10 text-white text-center pt-24 lg:pt-32 px-5 lg:px-0">
-          <h1 className="text-4xl lg:text-5xl font-bold tracking-wide leading-tight">
+          <h1 className="text-2xl lg:text-5xl font-bold tracking-wide leading-tight">
             Welcome to Food Share Platform
           </h1>
-          <p className="text-xl mt-4">
+          <p className="text-lg lg:text-xl mt-4">
             Sharing food for a better world. Join us today!
           </p>
           <Link

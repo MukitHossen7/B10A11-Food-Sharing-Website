@@ -5,7 +5,7 @@ import share3 from "../../assets/images (5).jpg";
 const OurDestination = () => {
   return (
     <div>
-      <div className=" pt-16 lg:pt-20 w-11/12 md:w-11/12 lg:w-11/12 lg:container mx-auto">
+      <div className=" pt-12 lg:pt-20 w-11/12 md:w-11/12 lg:w-11/12 lg:container mx-auto">
         <div className="grid gap-10 lg:grid-cols-2">
           <div className="flex flex-col justify-center md:pr-8 xl:pr-0 lg:max-w-lg">
             <div className="flex items-center justify-center w-16 h-16 mb-4 rounded-full bg-teal-accent-400">

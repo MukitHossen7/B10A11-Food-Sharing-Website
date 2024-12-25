@@ -7,7 +7,7 @@ import OurDestination from "../../components/OurDestination/OurDestination";
 const Home = () => {
   return (
     <div>
-      <div className="pb-20 ">
+      <div className="pb-16 lg:pb-20 ">
         {/* Banner Section  */}
         <Banner></Banner>
         {/* Featured Foods Section */}

@@ -25,7 +25,7 @@ const FeaturedFoods = () => {
 
   return (
     <div className="w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto pt-16 pb-14">
-      <h2 className="text-3xl lg:text-4xl font-semibold text-center text-teal-600">
+      <h2 className="text-2xl lg:text-4xl font-semibold text-center text-teal-600">
         Featured Foods
       </h2>
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -41,7 +41,9 @@ const FeaturedFoods = () => {
             />
 
             <div className="mb-2 gap-10 flex justify-between items-center">
-              <h2 className="text-xl font-semibold ">{food?.foodName}</h2>
+              <h2 className="text-lg lg:text-xl font-semibold ">
+                {food?.foodName}
+              </h2>
               <p className="text-green-500 bg-green-100 px-3 text-sm rounded-full">
                 {food?.status}
               </p>

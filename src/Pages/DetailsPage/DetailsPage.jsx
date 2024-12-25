@@ -36,9 +36,9 @@ const DetailsPage = () => {
             <img
               src={foodImg}
               alt="image"
-              className="w-full h-96 object-cover object-center"
+              className="w-full h-72 lg:h-96 object-cover object-center"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-white text-4xl font-bold">
+            <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-white text-2xl lg:text-4xl font-bold">
               {foodName}
             </div>
           </div>

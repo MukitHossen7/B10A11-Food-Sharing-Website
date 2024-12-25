@@ -49,7 +49,6 @@ const Signup = () => {
       setPasswordError(errorMessage);
       return;
     }
-    console.log(name, email, photo, password);
     createSignUpNewUsers(email, password)
       .then(() => {
         e.target.reset();
