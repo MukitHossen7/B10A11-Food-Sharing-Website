@@ -14,7 +14,6 @@ const Login = () => {
 
   if (user) {
     return <Navigate to="/"></Navigate>;
-    // <Navigate to={location.state || "/"}></Navigate>;
   }
   const handleLoginForm = (e) => {
     e.preventDefault();
