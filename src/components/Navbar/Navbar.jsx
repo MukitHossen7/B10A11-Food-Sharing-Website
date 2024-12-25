@@ -1,9 +1,28 @@
-import { useContext } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { Link, matchPath, NavLink, useLocation } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import toast from "react-hot-toast";
 
 const Navbar = () => {
+  const location = useLocation();
+  useEffect(() => {
+    const title = {
+      "/": "Home || FoodSharing",
+      "/availableFoods": "Available_Foods || FoodSharing",
+      "/addFood": "Add_Food || FoodSharing",
+      "/manageMyFoods": "Manage_My_Foods || FoodSharing",
+      "/myFoodRequest": "My_Food_Request || FoodSharing",
+      "/login": "Login || FoodSharing",
+      "/signup": "Signup || FoodSharing",
+    };
+    if (matchPath("/food/:id", location.pathname)) {
+      title[location.pathname] = "Food_Details || FoodSharing";
+    }
+    if (matchPath("/updateFoods/:id", location.pathname)) {
+      title[location.pathname] = "Update_Food || FoodSharing";
+    }
+    document.title = title[location.pathname] || "FoodSharing";
+  }, [location]);
   const { user, logOut } = useContext(AuthContext);
   const handleLogOut = () => {
     logOut().then(() => {
