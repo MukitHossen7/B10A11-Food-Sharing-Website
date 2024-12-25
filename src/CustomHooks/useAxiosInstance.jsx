@@ -7,6 +7,7 @@ const axiosInstance = axios.create({
   baseURL: "https://food-shearing-server-side.vercel.app",
   withCredentials: true,
 });
+
 const useAxiosInstance = () => {
   const { logOut } = useContext(AuthContext);
   const navigate = useNavigate();
