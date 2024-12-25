@@ -1,14 +1,28 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FadeLoader } from "react-spinners";
 
 const FeaturedFoods = () => {
-  const [featuredFoods, setFeaturedFoods] = useState([]);
-  useEffect(() => {
-    axios.get(`${import.meta.env.VITE_BASE_URL}/featured-foods`).then((res) => {
-      setFeaturedFoods(res.data);
-    });
-  }, []);
+  const handleFeaturedFood = async () => {
+    const { data } = await axios.get(
+      `${import.meta.env.VITE_BASE_URL}/featured-foods`
+    );
+    return data;
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["featured-foods"],
+    queryFn: handleFeaturedFood,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <FadeLoader color="#2df1f7" loading={true} />
+      </div>
+    );
+  }
 
   return (
     <div className="w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto pt-16 pb-14">
@@ -16,7 +30,7 @@ const FeaturedFoods = () => {
         Featured Foods
       </h2>
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {featuredFoods.map((food) => (
+        {data?.map((food) => (
           <div
             key={food._id}
             className="rounded shadow-md p-4 flex flex-col  hover:shadow-xl  bg-white  overflow-hidden hover:scale-105 transform transition duration-300 ease-in-out"

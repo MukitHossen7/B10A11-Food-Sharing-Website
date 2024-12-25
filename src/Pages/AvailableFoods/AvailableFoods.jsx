@@ -1,28 +1,50 @@
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { FadeLoader } from "react-spinners";
 
 const AvailableFoods = () => {
-  const [foods, setFoods] = useState([]);
+  // const [foods, setFoods] = useState([]);
   const [layout, setLayout] = useState(3);
   const [sort, setSort] = useState("");
   const [search, setSearch] = useState("");
 
-  useEffect(() => {
-    axios
-      .get(
-        `${
-          import.meta.env.VITE_BASE_URL
-        }/all-foods?available=true&sort=${sort}&search=${search}`
-      )
-      .then((response) => {
-        setFoods(response.data);
-      });
-  }, [sort, search]);
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `${
+  //         import.meta.env.VITE_BASE_URL
+  //       }/all-foods?available=true&sort=${sort}&search=${search}`
+  //     )
+  //     .then((response) => {
+  //       setFoods(response.data);
+  //     });
+  // }, [sort, search]);
+
   const toggleLayout = () => {
     setLayout((prev) => (prev === 3 ? 2 : 3));
   };
+  const handleAvailableFoods = async () => {
+    const { data } = await axios.get(
+      `${
+        import.meta.env.VITE_BASE_URL
+      }/all-foods?available=true&sort=${sort}&search=${search}`
+    );
+    return data;
+  };
+  const { data, isLoading } = useQuery({
+    queryKey: ["availableFoods", { sort, search }],
+    queryFn: handleAvailableFoods,
+  });
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <FadeLoader color="#2df1f7" loading={true} />
+      </div>
+    );
+  }
   return (
     <div className="pb-20 pt-10">
       <div className=" w-11/12 md:w-11/12 lg:w-11/12 xl:container mx-auto">
@@ -64,7 +86,7 @@ const AvailableFoods = () => {
         </div>
 
         <div className={`grid sm:grid-cols-1 lg:grid-cols-${layout} gap-6 `}>
-          {foods.map((food) => (
+          {data?.map((food) => (
             <div
               key={food._id}
               className="rounded shadow-md p-4 flex flex-col  hover:shadow-xl transition-shadow"
