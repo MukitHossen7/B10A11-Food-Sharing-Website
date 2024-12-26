@@ -59,7 +59,7 @@ const AvailableFoods = () => {
 
           <button
             onClick={toggleLayout}
-            className="bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600"
+            className="bg-teal-500 text-white px-4 py-2 hidden lg:block rounded hover:bg-teal-600"
           >
             Toggle Layout
           </button>
