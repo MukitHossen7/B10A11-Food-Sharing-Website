@@ -20,6 +20,23 @@
 - 9.Using Tanstack query for fetching API in (Featured Foods section)
 - 10.Using mutation feature of tanstack query for creating API Data in (Add Food page)
 
+## Main Technologies
+
+### Frontend
+
+- React.js
+- Tailwind CSS
+- React Router DOM
+- Axios
+- Firebase Authentication
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB
+- JWT Authentication
+
 ## npm Packages
 
 - tanstack/react-query
